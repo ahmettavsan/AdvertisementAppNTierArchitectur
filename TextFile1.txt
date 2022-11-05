@@ -1,0 +1,46 @@
+***** var roles=await _uOW.GetRepository<AppRole>().GetAllAsync(x => x.AppUserRoles.Any(x => x.AppUserId == userId));
+   var id = int.Parse((User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)).Value);
+
+   var result = await _appUserService.ChechUser(dto);
+            if (result.ResponseType==ResponseType.Success)
+            {
+              var roleResult= await _appUserService.GetRolesByUserIdAsync(result.Data.Id);
+                var claims = new List<Claim>();
+                if (roleResult.ResponseType==ResponseType.Success)
+                {
+                    foreach (var role in roleResult.Data)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, role.Definition));
+                    }
+                   
+                }
+                claims.Add(new Claim(ClaimTypes.NameIdentifier, result.Data.Id.ToString()));--------->claimslardan claimstype nameidentifier alanýna kullanýcýnýn id sini setliyoruz
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = dto.RememberMe,
+                };
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+                return RedirectToAction("Index", "Home");
+
+            }
+            ModelState.AddModelError("Kullancý Adý veya Þifre Hatalýdýr", result.Message);
+            return View(dto);
+
+
+            -----------------------------------------------------------------------------------------
+            RenderSection aracýlýðýyla layouttan türüyen sayfalarda 
+            istediðimiz yerlerde kod kümesi barýndýralabiliriz
+            @RENDERSECTION("script",false)--->isRequired=false
+
+<form asp-action="Send" asp-controller="Advertisement" method="post" enctype="multipart/form-data">
+            file ile çalýþýcaksak form da enctype unutma!!!
+           
+
+           clientlara döneceðimiz dtolardaki navigation propertyleri de dtoya çevirmek lazým
+           çevir maple
+           var query=await _uow.getrepository<t>().getquery();
+           var list=await query.include(x=>x.appuser).theninclude(x=>x.gender)........

@@ -1,0 +1,55 @@
+﻿@model AdvertisementAppUserCreateModel
+@{
+    Layout = "_Layout";
+}
+
+<form asp-action="Send" asp-controller="Advertisement" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="@Model.AdvertisementId" />
+    <input type="hidden" asp-for="@Model.AppUserId" />
+    @if (ViewBag.GenderId==(int)GenderType.Erkek)
+    {
+        <div class="mb-3">
+            <label>Military Status:</label>
+            <select onchange="setInputVisibility()" asp-for="@Model.MilitaryStatusId" asp-items="@ViewBag.MilitaryStatus" class="form-select"></select>
+        </div>
+        <div id="dateDiv" class="mb-3" style="display:none">
+            <label>Tecil Tarihi</label>
+            <input type="date" asp-for="@Model.EndDate" class="form-control" />
+        </div>
+    }
+    else
+    {
+        <input type="hidden" asp-for="@Model.MilitaryStatusId" value="@((int)MilitaryStatusType.Muaf)"  />
+    }
+    <div class="mb-3">
+        <label>Work Exprience:</label>
+        <input asp-for="@Model.WorkExperience" type="number"/>
+    </div>
+    <div class="mb-3">
+        <label>Cv:</label>
+        <input type="file" asp-for="@Model.File" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary text-end">Gönder</button>
+    </div>
+    <div asp-validation-summary="All" ></div>
+</form>
+
+@section script {
+    <script>
+        setInputVisibility();
+        function setInputVisibility(){
+          var selectElemet = document.getElementById("MilitaryStatusId");
+          var militaryStatusId=selectElemet.value;
+            var dateDivElement = document.getElementById("dateDiv");
+          if(militaryStatusId==2){
+             dateDivElement.style.display="block";
+          }
+          else{
+                dateDivElement.style.display = "none";
+
+            }
+        }
+    </script>
+
+}

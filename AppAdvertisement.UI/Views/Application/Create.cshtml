@@ -1,0 +1,49 @@
+﻿@model AdvertisementCreateDto
+
+@{
+    Layout = "_Layout";
+}
+
+<diV class="container-fluid">
+    <form asp-action="Create" asp-controller="Application" method="post">
+        <div class="mb-3">
+            <label>İlanın Başlığı</label>
+            <input asp-for="@Model.Title" type="text" />
+        </div>
+     <div class="mb-3">
+            <label class="form-check-label">Aktif</label>
+            <input type="checkbox" class="form-check-input" asp-for="@Model.Status" />
+        </div>
+        <div class="mb-3">
+            <label>İçerik</label>
+            <textarea asp-for="@Model.Description" class="form-control"></textarea>
+
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Kaydet</button>
+        </div>
+    </form>
+
+
+
+</diV>
+
+@section script{
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/trumbowyg.min.js" integrity="sha512-t4CFex/T+ioTF5y0QZnCY9r5fkE8bMf9uoNH2HNSwsiTaMQMO0C9KbKPMvwWNdVaEO51nDL3pAzg4ydjWXaqbg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#Description").trumbowyg();
+        })
+    </script>
+
+}
+
+    @section css{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/ui/trumbowyg.min.css" integrity="sha512-nwpMzLYxfwDnu68Rt9PqLqgVtHkIJxEPrlu3PfTfLQKVgBAlTKDmim1JvCGNyNRtyvCx1nNIVBfYm8UZotWd4Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+}
+
+
